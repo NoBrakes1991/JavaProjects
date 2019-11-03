@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Chat</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <style>
+        .message-bubble {
+            padding: 10px 0px 10px 0px;
+        }
+
+        .message-bubble:nth-child(even) {
+            background-color: #F5F5F5;
+        }
+
+        .message-bubble > * {
+            padding-left: 10px;
+        }
+
+        .panel-body {
+            padding: 0px;
+        }
+
+        .panel-heading {
+            background-color: #3d6da7 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">Chat</div>
+            <div class="panel-body">
+                <div class="container" id="content">
+
+                </div>
+                <div class="panel-footer" style="">
+                    <form id="form">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="message" autocomplete="false"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit" id="submit">Send</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $(function () {
+        const messageInput = $('#message');
+        messageInput.focus();
+
+        var socket = io.connect();
+        socket.on('message', function (data) {
+            if (!data) {
+                return false;
+            }
+            $('#content').append('<div class="row message-bubble"> <p class="text-muted">' + data.user.name + '</p> <span>' + data.message + '</span> </div>');
+        });
+
+        $('#form').submit(function () {
+            var message = messageInput.val();
+            if (!message.length) {
+                return false;
+            }
+
+            socket.emit('message', {message: message});
+            $('#message').val('');
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
