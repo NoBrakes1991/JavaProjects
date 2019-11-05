@@ -1,4 +1,7 @@
 package starter.repos;
 
-public interface DAO {
+import org.springframework.data.repository.CrudRepository;
+import starter.model.Tasks;
+
+public interface DAO extends CrudRepository <Tasks, Long> {
 }

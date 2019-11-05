@@ -1,14 +1,17 @@
 package starter.model;
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
+
 @Entity
 public class Tasks {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String summary;
     private Date startDate;
@@ -18,20 +21,15 @@ public class Tasks {
     public Tasks() {
     }
 
-    public Tasks(int id, String summary, Date startDate, Date endDate, String assignee) {
-        this.id = id;
+    public Tasks(String summary, Date startDate, Date endDate, String assignee) {
         this.summary = summary;
         this.startDate = startDate;
         this.endDate = endDate;
         this.assignee = assignee;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getSummary() {
